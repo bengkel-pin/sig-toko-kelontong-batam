@@ -96,5 +96,7 @@ export default function Map({ shops, clickedShop }) {
         if (clickedShop) flyToShop(clickedShop);
     }, [clickedShop]);
 
-    return <div ref={mapContainer} style={{ height: "100%" }} className="relative flex-1 mt-[54px]"></div>;
+    return <div ref={mapContainer} style={{ height: "100%" }} className="relative flex-1 pt-[54px">
+        <div className="absolute left-2 bottom-2 bg-gray-100 px-4 text-gray-600 rounded-xl z-10 hidden md:block">Made with ❤️ by <a href="https://kelvin-dev.vercel.app/" className="text-blue-500 hover:underline">Kelvin</a></div>
+    </div>;
 }
