@@ -133,7 +133,7 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop })
                                 <img className="w-full object-cover object-center" src={clickedShop.image_3_url} alt="Image 3" />
                             </SwiperSlide>)}
                         </Swiper>
-                        <button type="button" title="Close" className="absolute top-4 right-4 bg-white hover:bg-gray-200 text-black p-1 h-8 w-8 rounded-full" onClick={() => onClickedShop(null)}>
+                        <button type="button" title="Close" className="absolute z-10 top-4 right-4 bg-white hover:bg-gray-200 text-black p-1 h-8 w-8 rounded-full" onClick={() => onClickedShop(null)}>
                             <XMarkIcon />
                         </button>
                     </div>
