@@ -6,7 +6,7 @@ export function useDirections(map, shopDirection, setStartCoordinate, setIsDirec
         // make a directions request using cycling profile
         // an arbitrary start will always be the same
         // only the end or destination will change
-        const query = await fetch(`http://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${shopDirection.longitude},${shopDirection.latitude}?steps=true&geometries=geojson`, { method: "GET" });
+        const query = await fetch(`https://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${shopDirection.longitude},${shopDirection.latitude}?steps=true&geometries=geojson`, { method: "GET" });
         const json = await query.json();
         const data = json.routes[0];
         const route = data.geometry.coordinates;
@@ -66,7 +66,6 @@ export function useDirections(map, shopDirection, setStartCoordinate, setIsDirec
             };
 
             if (map.current.getSource("start")) {
-                console.log("Sourcenya masih ada");
                 map.current.getSource("start").setData(start);
             } else {
                 map.current.addLayer({
