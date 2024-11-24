@@ -4,6 +4,7 @@ import { fetchAllShops, fetchShopsBySubdistrict } from "@/app/lib/data";
 import { BanknotesIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { formatCurrency } from "@/app/lib/utils";
 import Link from "next/link";
+import { FaDirections } from "react-icons/fa";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 
-export default function Sidebar({ shops, setShops, clickedShop, onClickedShop }) {
+export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, setShopDirection }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedSubdistrict, setSelectedSubdistrict] = useState("All");
@@ -118,41 +119,56 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop })
             </div>
 
             {clickedShop && (
-                <div key={clickedShop.id} className="absolute top-20 -right-[26rem] bg-white h-min w-96 z-10 rounded-3xl">
-                    <div className="relative w-full">
-                        <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} className="w-full aspect-square rounded-tl-3xl rounded-tr-3xl">
-                            <SwiperSlide>
-                                <img className="w-full object-cover object-center" src={clickedShop.default_image_url} alt="Default" />
-                            </SwiperSlide>
-                            {clickedShop.image_2_url && (
-                            <SwiperSlide>
-                                <img className="w-full object-cover object-center" src={clickedShop.image_2_url} alt="Image 2" />
-                            </SwiperSlide>)}
-                            {clickedShop.image_3_url && (
-                            <SwiperSlide>
-                                <img className="w-full object-cover object-center" src={clickedShop.image_3_url} alt="Image 3" />
-                            </SwiperSlide>)}
-                        </Swiper>
+                <div key={clickedShop.id} className="absolute top-16 -right-[24.6rem] bg-white h-[70.5vh] overflow-hidden w-96 z-10 rounded-3xl">
+                    <div className="relative h-full w-full overflow-auto">
+                        <div className="w-full">
+                            <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} className="w-full aspect-square ">
+                                <SwiperSlide>
+                                    <img className="w-full object-cover object-center" src={clickedShop.default_image_url} alt="Default" />
+                                </SwiperSlide>
+                                {clickedShop.image_2_url && (
+                                    <SwiperSlide>
+                                        <img className="w-full object-cover object-center" src={clickedShop.image_2_url} alt="Image 2" />
+                                    </SwiperSlide>
+                                )}
+                                {clickedShop.image_3_url && (
+                                    <SwiperSlide>
+                                        <img className="w-full object-cover object-center" src={clickedShop.image_3_url} alt="Image 3" />
+                                    </SwiperSlide>
+                                )}
+                            </Swiper>
+                        </div>
+                        <div className="flex py-4 px-4">
+                            <div className="flex-grow">
+                                <h2 className="font-medium text-2xl">{clickedShop.name}</h2>
+                                <p className="font-light text-gray-500 text-md">{clickedShop.subdistrict}</p>
+                                <p className="text-md">
+                                    <span className={`${isShopOpen(clickedShop.opens, clickedShop.closes) ? "text-green-500" : "text-red-500"}`}>{isShopOpen(clickedShop.opens, clickedShop.closes) ? "Buka" : "Tutup"}</span>
+                                    <span className="text-gray-500">{isShopOpen(clickedShop.opens, clickedShop.closes) ? ` • Tutup jam ${clickedShop.closes}` : ` • Buka jam ${clickedShop.opens}`}</span>
+                                </p>
+                                <p className="font-light text-gray-500 text-md">
+                                    <BanknotesIcon className="h-4 w-4 inline mr-2" />
+                                    {formatCurrency(Number(clickedShop.price_min))} - {formatCurrency(Number(clickedShop.price_max))}
+                                </p>
+                            </div>
+                            <div className="flex-none w-min flex flex-col">
+                                <button className="flex flex-col items-center group" onClick={() => {setShopDirection(clickedShop)}}>
+                                    <div className="w-8 h-8 bg-blue-500 rounded-full flex justify-center items-center group-hover:shadow-md group-hover:shadow-blue-400">
+                                        <FaDirections className="w-4 h-4 text-white" />
+                                    </div>
+                                    <div className="text-xs text-center mt-1 w-full text-blue-500 font-semibold">Directions</div>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="px-2 py-4 border-t-2 border-t-blue-500">
+                            <Link href={"/data-collecting"} className="text-blue-500 text-sm font-medium rounded-md px-2 py-2 hover:bg-blue-200">
+                                Tentang data ini
+                            </Link>
+                        </div>
+
                         <button type="button" title="Close" className="absolute z-10 top-4 right-4 bg-white hover:bg-gray-200 text-black p-1 h-8 w-8 rounded-full" onClick={() => onClickedShop(null)}>
                             <XMarkIcon />
                         </button>
-                    </div>
-                    <div className="flex flex-col py-4 px-4">
-                        <h2 className="font-medium text-2xl">{clickedShop.name}</h2>
-                        <p className="font-light text-gray-500 text-md">{clickedShop.subdistrict}</p>
-                        <p className="text-md">
-                            <span className={`${isShopOpen(clickedShop.opens, clickedShop.closes) ? "text-green-500" : "text-red-500"}`}>{isShopOpen(clickedShop.opens, clickedShop.closes) ? "Buka" : "Tutup"}</span>
-                            <span className="text-gray-500">{isShopOpen(clickedShop.opens, clickedShop.closes) ? ` • Tutup jam ${clickedShop.closes}` : ` • Buka jam ${clickedShop.opens}`}</span>
-                        </p>
-                        <p className="font-light text-gray-500 text-md">
-                            <BanknotesIcon className="h-4 w-4 inline mr-2" />
-                            {formatCurrency(Number(clickedShop.price_min))} - {formatCurrency(Number(clickedShop.price_max))}
-                        </p>
-                    </div>
-                    <div className="px-4 py-4 border-t-2 border-t-blue-500">
-                        <Link href={"/data-collecting"} className="text-blue-500 text-sm font-medium">
-                            Tentang data ini
-                        </Link>
                     </div>
                 </div>
             )}

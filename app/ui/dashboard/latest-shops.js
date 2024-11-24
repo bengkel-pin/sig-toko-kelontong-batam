@@ -2,6 +2,7 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 // import Image from "next/image";
 import { fetchLatestShops } from "@/app/lib/data";
+import { formatCurrency } from "@/app/lib/utils";
 
 export default async function LatestInvoices() {
     const latestShops = await fetchLatestShops();
@@ -26,7 +27,7 @@ export default async function LatestInvoices() {
                                     </div>
                                 </div>
                                 <p className={`$ truncate text-sm font-medium md:text-base`}>
-                                    {shop.price_min} - {shop.price_max}
+                                    {formatCurrency(Number(shop.price_min))} - {formatCurrency(Number(shop.price_max))}
                                 </p>
                             </div>
                         );

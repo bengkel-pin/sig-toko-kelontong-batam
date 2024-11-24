@@ -2,6 +2,7 @@ import Image from "next/image";
 import { UpdateShop, DeleteShop } from "@/app/ui/shops/buttons";
 // import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredShops } from "@/app/lib/data";
+import { formatCurrency } from "@/app/lib/utils";
 
 export default async function ShopsTable({ query, currentPage }) {
     const shops = await fetchFilteredShops(query, currentPage);
@@ -74,7 +75,7 @@ export default async function ShopsTable({ query, currentPage }) {
                                     <td className="whitespace-nowrap px-3 py-3">{shop.subdistrict}</td>
                                     <td className="whitespace-nowrap px-3 py-3">{shop.latitude}</td>
                                     <td className="whitespace-nowrap px-3 py-3">{shop.longitude}</td>
-                                    <td className="whitespace-nowrap px-3 py-3">{`Rp${shop.price_min} - Rp${shop.price_max}`}</td>
+                                    <td className="whitespace-nowrap px-3 py-3">{`${formatCurrency(Number(shop.price_min))} - ${formatCurrency(Number(shop.price_max))}`}</td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex justify-end gap-3">
                                             <UpdateShop id={shop.id} />
