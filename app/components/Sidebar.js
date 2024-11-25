@@ -28,6 +28,8 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, s
     const handleSubdistrictChange = (e) => {
         onClickedShop(null);
         setSelectedSubdistrict(e.target.value);
+        
+        setShopDirection(false);
     };
 
     useEffect(() => {
@@ -57,7 +59,7 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, s
         };
 
         fetchShopsData();
-    }, [selectedSubdistrict, setShops]);
+    }, [selectedSubdistrict]);
 
     const isShopOpen = (opens, closes) => {
         const now = new Date();

@@ -6,6 +6,7 @@ import { useMarkers } from "./hooks/useMarkers";
 import DirectionsPanel from "@/app/ui/map/DirectionsPanel";
 import { useDirections } from "./hooks/useDirections";
 
+
 export default function Map({ shops, clickedShop, onClickedShop, shopDirection, setShopDirection }) {
     const mapContainer = useRef(null);
 
@@ -18,7 +19,9 @@ export default function Map({ shops, clickedShop, onClickedShop, shopDirection, 
     const [isDirectionEnabled, setIsDirectionEnabled] = useState(false);
     const [startCoordinate, setStartCoordinate] = useState("");
 
-    useMarkers(map, shops, setMarkerClicked, isDirectionEnabled); // Add marker to the map based on the shop data
+    const [profile, setProfile] = useState("traffic")
+
+    useMarkers(map, shops, setMarkerClicked, isDirectionEnabled, setIsDirectionEnabled); // Add marker to the map based on the shop data
 
     // Hooks if there is a marker clicked
     useEffect(() => {
@@ -60,7 +63,7 @@ export default function Map({ shops, clickedShop, onClickedShop, shopDirection, 
         if (clickedShop) flyToShop(clickedShop);
     }, [clickedShop]);
 
-    useDirections(map, shopDirection, setStartCoordinate, setIsDirectionEnabled, onClickedShop);
+    useDirections(map, shopDirection, startCoordinate, setStartCoordinate, setIsDirectionEnabled, onClickedShop, profile);
 
     return (
         <div ref={mapContainer} style={{ height: "100%" }} className="relative flex-1 pt-[54px">
@@ -70,6 +73,8 @@ export default function Map({ shops, clickedShop, onClickedShop, shopDirection, 
                     setStartCoordinate={setStartCoordinate}
                     shopDirection={shopDirection}
                     setShopDirection={setShopDirection}
+                    profile={profile}
+                    setProfile={setProfile}
                 />
             )}
         </div>

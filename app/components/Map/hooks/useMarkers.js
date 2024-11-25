@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { fetchShopById } from "@/app/lib/data";
 
-export function useMarkers(map, shops, setMarkerClicked, isDirectionEnabled) {
+export function useMarkers(map, shops, setMarkerClicked, isDirectionEnabled, setIsDirectionEnabled) {
     useEffect(() => {
         if (!map.current || !shops.length) return;
 
@@ -81,7 +81,7 @@ export function useMarkers(map, shops, setMarkerClicked, isDirectionEnabled) {
             };
 
             fetchData();
-        }
+        };
 
         function handleMouseEnterMarkers() {
             map.current.getCanvas().style.cursor = "pointer";

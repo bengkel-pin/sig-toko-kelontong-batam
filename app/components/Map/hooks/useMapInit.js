@@ -25,10 +25,11 @@ export function useMapInit(containerRef) {
                     enableHighAccuracy: true,
                 },
                 trackUserLocation: true,
-            })
+            }),
+            'bottom-right'
         );
 
-        map.current.addControl(new maplibregl.NavigationControl());
+        map.current.addControl(new maplibregl.NavigationControl(), 'bottom-right');
         map.current.touchZoomRotate.disableRotation();
 
         map.current.addControl(
