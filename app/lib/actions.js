@@ -160,7 +160,7 @@ export async function deleteShop(id) {
             }
         }
 
-        revalidatePath("/dashboard/invoices");
+        revalidatePath("/dashboard/shops");
 
         return {
             message: "Deleted Shop",
