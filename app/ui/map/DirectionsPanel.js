@@ -22,15 +22,15 @@ export default function DirectionsPanel({ startCoordinate, setStartCoordinate, s
                     <input className="flex-1 p-1 rounded-md outline-none" id="start" type="text" placeholder="Click a starting place on the map" value={startCoordinate} onChange={(e) => setStartCoordinate(e.target.value)} readOnly/>
                 </div>
                 <div className="flex items-center">
-                    <label className="flex-none font-bold bg-purple-400 text-white w-10 h-10 flex items-center justify-center" htmlFor="end">
+                    <label className="flex-none font-bold bg-red-600 text-white w-10 h-10 flex items-center justify-center" htmlFor="end">
                         B
                     </label>
-                    <input className="flex-1 p-1 rounded-md outline-none bg-white text-gray-400" id="end" type="text" placeholder="Choose destination" disabled value={`${shopDirection.latitude}, ${shopDirection.longitude}`} />
+                    <input className="flex-1 p-1 rounded-md outline-none bg-white text-gray-400" id="end" type="text" placeholder="Choose destination" disabled value={`${shopDirection.name}`} />
                 </div>
             </div>
             <div className="bg-white rounded-full overflow-hidden">
                 {!startCoordinate ? (
-                    <div>You need to click a place on the map!</div>
+                    <div className="text-center">You need to click a place on the map!</div>
                 ) : (
                     <div id="mode-container" className="flex justify-between px-[2px]">
                         <button
