@@ -121,7 +121,7 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, s
             </div>
 
             {clickedShop && (
-                <div key={clickedShop.id} className="absolute top-16 -right-[24.6rem] bg-white h-[70.5vh] overflow-hidden w-96 z-10 rounded-3xl">
+                <div key={clickedShop.id} className="absolute top-16 -right-[24.6rem] bg-white h-[70.5vh] max-h-[512px] overflow-hidden w-96 z-10 rounded-3xl">
                     <div className="relative h-full w-full overflow-auto">
                         <div className="w-full">
                             <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} className="w-full aspect-square ">

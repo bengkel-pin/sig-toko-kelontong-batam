@@ -5,11 +5,10 @@ export function useDirections(map, shopDirection, startCoordinate, setStartCoord
     async function getRoute(start, profile) {
         // make a directions request using cycling profile
         // an arbitrary start will always be the same
-        // only the end or destination will change
-        console.log(profile)
+        // only the end or destination will chang
         const query = await fetch(`https://router.project-osrm.org/route/v1/${profile}/${start[0]},${start[1]};${shopDirection.longitude},${shopDirection.latitude}?steps=true&geometries=geojson`, { method: "GET" });
         const json = await query.json();
-        console.log(json)
+    
         const data = json.routes[0];
         const route = data.geometry.coordinates;
         const geojson = {
