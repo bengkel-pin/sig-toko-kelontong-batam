@@ -46,14 +46,21 @@ export async function createShop(prevState, formData) {
     // Prepare data for insertion into the database
     const { name, default_image, price_min, price_max, latitude, longitude, opens, closes, subdistrict } = validatedFields.data;
 
+    // console.log(default_image)
     // Step 1: Upload images to blob storage
     let uploadedImages = [];
-    for (let file of images) {
+    let defaultImageIndex = null;
+    for (let [index, file] of images.entries()) {
         try {
-            const path = `uploads/shops/images/${file.name}`;
+            if (file.name === default_image) {
+                defaultImageIndex = index;
+            }
+            const uniqueFileName = `${name}-${index}${file.name.substring(file.name.lastIndexOf("."))}`;
+            const path = `uploads/shops/images/${uniqueFileName}`;
             const blob = await put(path, file, { access: "public" });
-            console.log(blob);
-            console.log(blob.url);
+
+            // console.log(blob)
+            // console.log(blob.url)
             uploadedImages.push({
                 name: file.name,
                 url: blob.url,
@@ -66,14 +73,18 @@ export async function createShop(prevState, formData) {
         }
     }
 
-    const defaultImageUrl = uploadedImages.find((img) => img.name === default_image)?.url;
+    const defaultImageUrl = uploadedImages[defaultImageIndex]?.url;
+    let otherImages = uploadedImages.filter((_, index) => index !== defaultImageIndex);
+
+    // Now ensure the default image is always placed in the first position
+    let finalUploadedImages = [uploadedImages[defaultImageIndex], ...otherImages];
 
     try {
         await sql`
             INSERT INTO shops 
                 (name, default_image_url, image_2_url, image_3_url, price_min, price_max, latitude, longitude, opens, closes, subdistrict)
             VALUES 
-                (${name}, ${defaultImageUrl}, ${uploadedImages[1]?.url || null}, ${uploadedImages[2]?.url || null}, ${price_min}, ${price_max}, ${latitude}, ${longitude}, ${opens}, ${closes}, ${subdistrict});
+                (${name}, ${finalUploadedImages[0]?.url}, ${finalUploadedImages[1]?.url || null}, ${finalUploadedImages[2]?.url || null}, ${price_min}, ${price_max}, ${latitude}, ${longitude}, ${opens}, ${closes}, ${subdistrict});
         `;
     } catch (error) {
         return {

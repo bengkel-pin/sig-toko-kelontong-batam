@@ -1,6 +1,9 @@
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+"use client";
+import { PencilIcon, PlusIcon, TrashIcon} from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { deleteShop } from "@/app/lib/actions";
+import { useState } from "react";
 
 export function CreateShop() {
     return (
@@ -19,15 +22,46 @@ export function UpdateShop({ id }) {
 }
 
 export function DeleteShop({ id }) {
-    const deleteShopWithId = deleteShop.bind(null, id);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Open the modal
+    const openModal = () => setIsModalOpen(true);
+
+    // Close the modal
+    const closeModal = () => setIsModalOpen(false);
+
+    // Perform the delete action
+    const handleDelete = async () => {
+        await deleteShop(id); // Assuming deleteShop is a function that deletes the shop
+        closeModal(); // Close the modal after deletion
+    };
 
     return (
-        <form action={deleteShopWithId}>
-        {/* <form> */}
-            <button className="rounded-md border p-2 hover:bg-gray-100">
+        <>
+            <button onClick={openModal} className="rounded-md border p-2 hover:bg-gray-100">
                 <span className="sr-only">Delete</span>
                 <TrashIcon className="w-5" />
             </button>
-        </form>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                    <div className="flex bg-white rounded-lg p-6 shadow-lg max-w-72 w-full text-wrap items-center flex-col">
+                        <div className="bg-red-200 rounded-full w-16 h-16 p-2 text-red-500 mb-4">
+                            <ExclamationTriangleIcon />
+                        </div>
+                        <h2 className="text-lg font-medium mb-2">Hapus Toko</h2>
+                        <p className="mb-4 text-center">Kamu akan menghapus toko ini. Apakah kamu yakin?</p>
+                        <div className="flex justify-between w-full gap-2">
+                            <button onClick={closeModal} className="flex-1 rounded-md bg-gray-200 p-2 hover:bg-gray-300">
+                                Batal
+                            </button>
+                            <button onClick={handleDelete} className="flex-1 rounded-md bg-red-500 text-white p-2 hover:bg-red-600">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 }

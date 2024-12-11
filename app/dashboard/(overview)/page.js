@@ -1,7 +1,6 @@
 import CardWrapper from "@/app/ui/dashboard/cards";
 import ShopDistributionPieChart from "@/app/ui/dashboard/distribution-chart";
 import LatestShops from "@/app/ui/dashboard/latest-shops";
-// import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from "react";
 import { CardsSkeleton, LatestShopsSkeleton } from "@/app/ui/skeletons";
 

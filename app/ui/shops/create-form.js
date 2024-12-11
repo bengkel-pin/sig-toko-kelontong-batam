@@ -15,6 +15,12 @@ export default function Form() {
 
     const [images, setImages] = useState([]);
 
+    const [defaultImageIndex, setDefaultImageIndex] = useState(0); // Default to the first image
+
+    const handleDefaultChange = (index) => {
+        setDefaultImageIndex(index); // Update the default image index
+    };
+
     const onDrop = (acceptedFiles) => {
         if (images.length + acceptedFiles.length > 3) {
             alert("You can only upload up to 3 images.");
@@ -64,10 +70,11 @@ export default function Form() {
                                 <input
                                     id={`image_${index}`}
                                     type="radio"
-                                    name="default_image"
                                     value={file.name}
                                     className="mt-1 hidden peer"
-                                    defaultChecked={index === 0} // set first image as default
+                                    name={index === defaultImageIndex ? "default_image" : undefined} // Assign name dynamically
+                                    checked={index === defaultImageIndex}
+                                    onChange={() => handleDefaultChange(index)}
                                 />
                                 <label className="peer relative peer-checked:border-blue-600 peer-checked:border-2 rounded-md cursor-pointer w-full" htmlFor={`image_${index}`}>
                                     <img src={file.preview} alt="preview" className="w-full aspect-square object-cover rounded-md" />
@@ -118,7 +125,7 @@ export default function Form() {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input id="price_min" name="price_min" type="number" step="0.01" placeholder="Enter minimum price" className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500" aria-describedby="price_min-error" />
+                            <input id="price_min" name="price_min" type="number" placeholder="Enter minimum price" className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500" aria-describedby="price_min-error" />
                             <ArrowDownRightIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
                     </div>
@@ -138,7 +145,7 @@ export default function Form() {
                     </label>
                     <div className="relative mt-2 rounded-md">
                         <div className="relative">
-                            <input id="price_max" name="price_max" type="number" step="0.01" placeholder="Enter maximum price" className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500" aria-describedby="price_max-error" />
+                            <input id="price_max" name="price_max" type="number" placeholder="Enter maximum price" className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500" aria-describedby="price_max-error" />
                             <ArrowUpRightIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
                     </div>
@@ -156,7 +163,7 @@ export default function Form() {
                     <label htmlFor="latitude" className="mb-2 block text-sm font-medium">
                         Latitude
                     </label>
-                    <input id="latitude" name="latitude" type="number" step="0.000001" placeholder="Enter latitude" className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="latitude-error" />
+                    <input id="latitude" name="latitude" type="number" step={0.000000000000000001} placeholder="Enter latitude" className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="latitude-error" />
                     <div id="latitude-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.latitude &&
                             state.errors.latitude.map((error) => (
@@ -171,7 +178,7 @@ export default function Form() {
                     <label htmlFor="longitude" className="mb-2 block text-sm font-medium">
                         Longitude
                     </label>
-                    <input id="longitude" name="longitude" type="number" step="0.000001" placeholder="Enter longitude" className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="longitude-error" />
+                    <input id="longitude" name="longitude" type="number" step={0.000000000000000001} placeholder="Enter longitude" className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="longitude-error" />
                     <div id="longitude-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.longitude &&
                             state.errors.longitude.map((error) => (
@@ -216,7 +223,11 @@ export default function Form() {
                     <label htmlFor="subdistrict" className="mb-2 block text-sm font-medium">
                         Kecamatan
                     </label>
-                    <input id="subdistrict" name="subdistrict" type="text" placeholder="Enter subdistrict" className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="subdistrict-error" />
+                    <select id="subdistrict" name="subdistrict" className="peer block w-full rounded-md bg-white border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="subdistrict-error">
+                        <option value="">Pilih Kecamatan</option>
+                        <option value="Batu Aji">Batu Aji</option>
+                        <option value="Batu Ampar">Batu Ampar</option>
+                    </select>
                     <div id="subdistrict-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.subdistrict &&
                             state.errors.subdistrict.map((error) => (

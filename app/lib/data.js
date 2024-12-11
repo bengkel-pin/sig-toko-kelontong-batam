@@ -122,10 +122,11 @@ export async function fetchCardData() {
 
         const data = await Promise.all([numberOfShopsPromise, theMostShopsInSubdistrictPromise, priceAveragePromise, openShopsPromise]);
 
-        console.log(data[3].rows[0])
         const numberOfShops = Number(data[0].rows[0].count ?? '0');
 
-        const theMostShopsinSubdistrict = `${data[1].rows[0].subdistrict}(${data[1].rows[0].total_shops})`;
+        const theMostShopsinSubdistrict = data[1].rows[0]
+            ? `${data[1].rows[0].subdistrict} (${data[1].rows[0].total_shops})`
+            : "No data available";;
 
         const priceAverage = formatCurrency(Number(data[2].rows[0].average_price ?? '0'));
 

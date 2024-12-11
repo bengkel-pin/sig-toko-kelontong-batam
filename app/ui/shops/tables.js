@@ -1,6 +1,4 @@
-import Image from "next/image";
 import { UpdateShop, DeleteShop } from "@/app/ui/shops/buttons";
-// import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredShops } from "@/app/lib/data";
 import { formatCurrency } from "@/app/lib/utils";
 
@@ -21,7 +19,7 @@ export default async function ShopsTable({ query, currentPage }) {
                                 <div className="flex items-center justify-between border-b pb-4">
                                     <div>
                                         <div className="mb-2 flex items-center">
-                                            <img src={shop.default_image_url} className="mr-2 rounded-full" width={28} height={28} alt={shop.name} />
+                                            <img src={shop.default_image_url} className="flex-none w-[32px] h-[32px] mr-2 rounded-full object-cover object-center" width={28} height={28} alt={shop.name} />
                                             <p>{shop.name}</p>
                                         </div>
                                         {/* <p className="text-sm text-gray-500">{shop.name}</p> */}
@@ -68,13 +66,13 @@ export default async function ShopsTable({ query, currentPage }) {
                                 <tr key={shop.id} className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex items-center gap-3">
-                                            <img src={shop.default_image_url} className="rounded-full" width={28} height={28} alt={shop.name} />
-                                            <p>{shop.name}</p>
+                                            <img src={shop.default_image_url} className="flex-none w-[28px] h-[28px] rounded-full object-cover object-center" width={28} height={28} alt={shop.name} />
+                                            <p className="truncate">{shop.name}</p>
                                         </div>
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">{shop.subdistrict}</td>
-                                    <td className="whitespace-nowrap px-3 py-3">{shop.latitude}</td>
-                                    <td className="whitespace-nowrap px-3 py-3">{shop.longitude}</td>
+                                    <td className="whitespace-nowrap px-3 max-w-36 truncate py-3">{shop.latitude}</td>
+                                    <td className="whitespace-nowrap px-3 max-w-36 truncate py-3">{shop.longitude}</td>
                                     <td className="whitespace-nowrap px-3 py-3">{`${formatCurrency(Number(shop.price_min))} - ${formatCurrency(Number(shop.price_max))}`}</td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex justify-end gap-3">

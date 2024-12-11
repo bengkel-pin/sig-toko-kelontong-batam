@@ -19,14 +19,14 @@ export default async function LatestInvoices() {
                                 className={clsx("flex flex-row items-center justify-between py-4", {
                                     "border-t": i !== 0,
                                 })}>
-                                <div className="flex items-center">
-                                    <img src={shop.default_image_url} alt={`${shop.name}'s image`} className="mr-4 rounded-full" width={32} height={32} />
-                                    <div className="min-w-0">
+                                <div className="flex items-center gap-4">
+                                    <img src={shop.default_image_url} alt={`${shop.name}'s image`} className="flex-none rounded-full w-8 h-8 object-cover object-center" />
+                                    <div className="flex-grow">
                                         <p className="truncate text-sm font-semibold md:text-base">{shop.name}</p>
-                                        <p className="hidden text-sm text-gray-500 sm:block">{shop.subdistrict}</p>
+                                        <p className="truncate hidden text-sm text-gray-500 md:block">{shop.subdistrict}</p>
                                     </div>
                                 </div>
-                                <p className={`$ truncate text-sm font-medium md:text-base`}>
+                                <p className={`hidden truncate text-sm font-medium md:text-base md:block`}>
                                     {formatCurrency(Number(shop.price_min))} - {formatCurrency(Number(shop.price_max))}
                                 </p>
                             </div>

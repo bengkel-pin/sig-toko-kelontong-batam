@@ -67,7 +67,7 @@ export default function EditForm({ shop }) {
                     <div className="mb-2 flex justify-between items-center">
                         <label className="block text-sm font-medium">Gambar Toko</label>
                         <button className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-900" title="Ubah Gambar">
-                            <PencilIcon className="w-4 h-4"/>
+                            <PencilIcon className="w-4 h-4" />
                         </button>
                     </div>
                     {/* <div {...getRootProps()} className="border-dashed border-2 border-gray-300 p-4 rounded-md cursor-pointer">
@@ -76,7 +76,7 @@ export default function EditForm({ shop }) {
                     </div> */}
                     <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2">
                         {images.map((file, index) => {
-                            console.log(images);
+                            // console.log(images);
                             return (
                                 <div key={file.name} className="relative flex justify-center items-center rounded-md w-full">
                                     <img src={file.preview} alt="preview" className="w-full aspect-square object-cover rounded-md" />
@@ -194,16 +194,7 @@ export default function EditForm({ shop }) {
                     <label htmlFor="longitude" className="mb-2 block text-sm font-medium">
                         Longitude
                     </label>
-                    <input
-                        id="longitude"
-                        name="longitude"
-                        type="number"
-                        step="any"
-                        placeholder="Enter longitude"
-                        defaultValue={shop.longitude}
-                        className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500"
-                        aria-describedby="longitude-error"
-                    />
+                    <input id="longitude" name="longitude" type="number" step="any" placeholder="Enter longitude" defaultValue={shop.longitude} className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="longitude-error" />
                     <div id="longitude-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.longitude &&
                             state.errors.longitude.map((error) => (
@@ -248,7 +239,11 @@ export default function EditForm({ shop }) {
                     <label htmlFor="subdistrict" className="mb-2 block text-sm font-medium">
                         Kecamatan
                     </label>
-                    <input id="subdistrict" name="subdistrict" type="text" placeholder="Enter subdistrict" defaultValue={shop.subdistrict} className="peer block w-full rounded-md border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="subdistrict-error" />
+                    <select id="subdistrict" name="subdistrict" defaultValue={shop.subdistrict} className="peer block w-full rounded-md bg-white border border-gray-200 py-2 px-3 text-sm outline-2 placeholder:text-gray-500" aria-describedby="subdistrict-error">
+                        <option value="">Pilih Kecamatan</option>
+                        <option value="Batu Aji">Batu Aji</option>
+                        <option value="Batu Ampar">Batu Ampar</option>
+                    </select>
                     <div id="subdistrict-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.subdistrict &&
                             state.errors.subdistrict.map((error) => (

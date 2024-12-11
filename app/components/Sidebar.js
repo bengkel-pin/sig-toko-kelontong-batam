@@ -79,7 +79,7 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, s
         <div className="relative w-80 flex-none h-full bg-white md:flex hidden flex-col">
             <div className="mt-14 p-4">
                 <p className="font-bold">Pilih Kecamatan</p>
-                <select name="subdistrict" id="subdistrict-filter" className="border-[2px] w-full p-2 rounded outline-none mt-2 cursor-pointer" value={selectedSubdistrict} onChange={handleSubdistrictChange}>
+                <select name="subdistrict" id="subdistrict-filter" className="bg-white border-[2px] w-full p-2 rounded outline-none mt-2 cursor-pointer" value={selectedSubdistrict} onChange={handleSubdistrictChange}>
                     <option value="All">Semua</option>
                     <option value="Batu Aji">Batu Aji</option>
                     <option value="Batu Ampar">Batu Ampar</option>
@@ -123,19 +123,19 @@ export default function Sidebar({ shops, setShops, clickedShop, onClickedShop, s
             {clickedShop && (
                 <div key={clickedShop.id} className="absolute top-16 -right-[24.6rem] bg-white h-[70.5vh] max-h-[512px] overflow-hidden w-96 z-10 rounded-3xl">
                     <div className="relative h-full w-full overflow-auto">
-                        <div className="w-full">
+                        <div className="w-full border-b-2 border-b-gray-200">
                             <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} className="w-full aspect-square ">
                                 <SwiperSlide>
-                                    <img className="w-full object-cover object-center" src={clickedShop.default_image_url} alt="Default" />
+                                    <img className="w-full h-full object-cover object-center" src={clickedShop.default_image_url} alt="Default" />
                                 </SwiperSlide>
                                 {clickedShop.image_2_url && (
                                     <SwiperSlide>
-                                        <img className="w-full object-cover object-center" src={clickedShop.image_2_url} alt="Image 2" />
+                                        <img className="w-full h-full object-cover object-center" src={clickedShop.image_2_url} alt="Image 2" />
                                     </SwiperSlide>
                                 )}
                                 {clickedShop.image_3_url && (
                                     <SwiperSlide>
-                                        <img className="w-full object-cover object-center" src={clickedShop.image_3_url} alt="Image 3" />
+                                        <img className="w-full h-full object-cover object-center" src={clickedShop.image_3_url} alt="Image 3" />
                                     </SwiperSlide>
                                 )}
                             </Swiper>

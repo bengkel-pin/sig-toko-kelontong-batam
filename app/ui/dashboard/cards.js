@@ -16,7 +16,6 @@ export default async function CardWrapper() {
       openShops,
     } = await fetchCardData();
 
-    console.log(theMostShopsinSubdistrict)
     return (
         <>
             <Card title="Jumlah Toko" value={numberOfShops} type="shops" />
