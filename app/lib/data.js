@@ -115,26 +115,24 @@ export async function fetchCardData() {
         `;
 
         const openShopsPromise = sql`
-            SELECT COUNT(*) AS open_shops
+            SELECT COUNT(*) as open_shops
             FROM shops
-            WHERE CURRENT_TIME BETWEEN opens::TIME AND closes::TIME
+            WHERE CURRENT_TIME >= opens::TIME OR CURRENT_TIME <= closes::TIME;
         `;
 
         const data = await Promise.all([numberOfShopsPromise, theMostShopsInSubdistrictPromise, priceAveragePromise, openShopsPromise]);
 
-        const numberOfShops = Number(data[0].rows[0].count ?? '0');
+        const numberOfShops = Number(data[0].rows[0].count ?? "0");
 
-        const theMostShopsinSubdistrict = data[1].rows[0]
-            ? `${data[1].rows[0].subdistrict} (${data[1].rows[0].total_shops})`
-            : "No data available";;
+        const theMostShopsinSubdistrict = data[1].rows[0] ? `${data[1].rows[0].subdistrict} (${data[1].rows[0].total_shops})` : "No data available";
 
-        const priceAverage = formatCurrency(Number(data[2].rows[0].average_price ?? '0'));
+        const priceAverage = formatCurrency(Number(data[2].rows[0].average_price ?? "0"));
 
-        const openShops = Number(data[3].rows[0].open_shops ?? '0');
+        const openShops = Number(data[3].rows[0].open_shops ?? "0");
 
         return {
             numberOfShops,
-            theMostShopsinSubdistrict, // the desctructor variable receive undefined 
+            theMostShopsinSubdistrict, // the desctructor variable receive undefined
             priceAverage,
             openShops,
         };
