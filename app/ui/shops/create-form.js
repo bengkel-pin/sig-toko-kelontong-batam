@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { XMarkIcon, BuildingStorefrontIcon, ArrowDownRightIcon, ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import { FaSpinner } from "react-icons/fa";
 import { Button } from "@/app/ui/button";
 import { createShop } from "@/app/lib/actions";
 import { useActionState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useState } from "react";
-import { startTransition } from "react";
+import { useState, useEffect, startTransition } from "react";
 
 const initialState = { message: null, errors: {} };
 export default function Form() {
-    const [state, formAction] = useActionState(createShop, initialState);
+    const [state, formAction, isPending] = useActionState(createShop, initialState);
 
     const [images, setImages] = useState([]);
 
@@ -29,6 +29,12 @@ export default function Form() {
         setImages((prevImages) => [...prevImages, ...acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))]);
     };
 
+    useEffect(() => {
+        return () => {
+            images.forEach((file) => URL.revokeObjectURL(file.preview));
+        };
+    }, [images]);
+
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: { "image/*": [] },
@@ -36,7 +42,13 @@ export default function Form() {
     });
 
     const removeImage = (index) => {
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        setImages((prevImages) => {
+            const updatedImages = prevImages.filter((_, i) => i !== index);
+            if (defaultImageIndex === index) {
+                setDefaultImageIndex(0); // Reset to the first image or choose logic to auto-adjust
+            }
+            return updatedImages;
+        });
     };
 
     const handleSubmit = (event) => {
@@ -50,7 +62,7 @@ export default function Form() {
         });
 
         startTransition(() => {
-            formAction(formData); // This triggers the async createShop function
+            formAction(formData)
         });
     };
 
@@ -66,7 +78,7 @@ export default function Form() {
                     </div>
                     <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-2">
                         {images.map((file, index) => (
-                            <div key={file.name} className="relative flex justify-center items-center rounded-md w-full">
+                            <div key={`${file.name}-${index}`} className="relative flex justify-center items-center rounded-md w-full">
                                 <input
                                     id={`image_${index}`}
                                     type="radio"
@@ -89,6 +101,14 @@ export default function Form() {
                     <div id="image-error" aria-live="polite" aria-atomic="true">
                         {state.errors?.images &&
                             state.errors.images.map((error, index) => (
+                                <p className="mt-2 text-sm text-red-500" key={`${error}-${index}`}>
+                                    {error}
+                                </p>
+                            ))}
+                    </div>
+                    <div id="default-image-error" aria-live="polite" aria-atomic="true">
+                        {state.errors?.default_image && !state.errors?.images &&
+                            state.errors.default_image.map((error, index) => (
                                 <p className="mt-2 text-sm text-red-500" key={`${error}-${index}`}>
                                     {error}
                                 </p>
@@ -242,7 +262,7 @@ export default function Form() {
                 <Link href="/dashboard/shops" className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200">
                     Batal
                 </Link>
-                <Button type="submit">Tambah Toko</Button>
+                <Button className="disabled:bg-blue-300" type="submit" disabled={isPending}>{isPending ? <FaSpinner className="animate-spin"/> : "Tambah toko"}</Button>
             </div>
         </form>
     );

@@ -14,7 +14,6 @@ const CreateShop = FormSchema.omit({ id: true }); // Skema untuk pembuatan toko 
 const UpdateShop = UpdateShopFormSchema.omit({ id: true}); // Skema untuk memperbarui toko tanpa `id` dan default_image
 
 export async function createShop(prevState, formData) {
-    // Validate form fields using Zod
     const images = formData.getAll("images"); // Get images from FormData
 
     const validatedFields = CreateShop.safeParse({
@@ -73,7 +72,6 @@ export async function createShop(prevState, formData) {
         }
     }
 
-    const defaultImageUrl = uploadedImages[defaultImageIndex]?.url;
     let otherImages = uploadedImages.filter((_, index) => index !== defaultImageIndex);
 
     // Now ensure the default image is always placed in the first position

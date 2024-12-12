@@ -7,12 +7,13 @@ import { useActionState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useState, useEffect } from "react";
 import { startTransition } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { updateShop } from "@/app/lib/actions";
 
 const initialState = { message: null, errors: {} };
 
 export default function EditForm({ shop }) {
-    const [state, formAction] = useActionState(updateShop.bind(null, shop.id), initialState);
+    const [state, formAction, isPending] = useActionState(updateShop.bind(null, shop.id), initialState);
     const [images, setImages] = useState([]);
 
     // const onDrop = (acceptedFiles) => {
@@ -258,7 +259,7 @@ export default function EditForm({ shop }) {
                 <Link href="/dashboard/shops" className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200">
                     Batal
                 </Link>
-                <Button type="submit">Simpan Toko</Button>
+                <Button className="disabled:bg-blue-300" type="submit" disabled={isPending}>{isPending ? <FaSpinner className="animate-spin"/> : "Simpan toko"}</Button>
             </div>
         </form>
     );
