@@ -37,21 +37,9 @@ export default function DirectionsPanel({ startCoordinate, setStartCoordinate, s
                             className={clsx(
                                 "flex-1 my-[2px] p-1 rounded-full cursor-pointer text-xs hover:text-gray-700", // Default styles
                                 {
-                                    "text-gray-700 bg-[#f1f1f1]": profile === "traffic", // Active styles
-                                }
-                            )}
-                            data-mode="traffic"
-                            onClick={() => setProfile("traffic")}>
-                            Traffic
-                        </button>
-                        <button
-                            className={clsx(
-                                "flex-1 my-[2px] p-1 rounded-full cursor-pointer text-xs hover:text-gray-700", // Default styles
-                                {
                                     "text-gray-700 bg-[#f1f1f1]": profile === "driving", // Active styles
                                 }
                             )}
-                            data-mode="driving"
                             onClick={() => setProfile("driving")}>
                             Driving
                         </button>
@@ -62,7 +50,6 @@ export default function DirectionsPanel({ startCoordinate, setStartCoordinate, s
                                     "text-gray-700 bg-[#f1f1f1]": profile === "walking", // Active styles
                                 }
                             )}
-                            data-mode="walking"
                             onClick={() => setProfile("walking")}>
                             Walking
                         </button>
@@ -73,7 +60,6 @@ export default function DirectionsPanel({ startCoordinate, setStartCoordinate, s
                                     "text-gray-700 bg-[#f1f1f1]": profile === "cycling", // Active styles
                                 }
                             )}
-                            data-mode="cycling"
                             onClick={() => setProfile("cycling")}>
                             Cycling
                         </button>

@@ -1,16 +1,29 @@
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useDirections(map, shopDirection, startCoordinate, setStartCoordinate, setIsDirectionEnabled, onClickedShop, profile) {
-    async function getRoute(start, profile) {
-        // make a directions request using cycling profile
-        // an arbitrary start will always be the same
-        // only the end or destination will chang
-        const query = await fetch(`https://router.project-osrm.org/route/v1/${profile}/${start[0]},${start[1]};${shopDirection.longitude},${shopDirection.latitude}?steps=true&geometries=geojson`, { method: "GET" });
+    const profileRef = useRef(profile);
+
+    async function getRoute(start, currentProfile) {
+        console.log(currentProfile)
+        let directionProfile;
+        switch (currentProfile) {
+            case "driving":
+                directionProfile = "driving-car";
+                break;
+            case "walking":
+                directionProfile = "foot-walking";
+                break;
+            case "cycling":
+                directionProfile = "cycling-regular";
+                break;
+            default:
+                break;
+        }
+        const query = await fetch(`https://api.openrouteservice.org/v2/directions/${directionProfile}?api_key=5b3ce3597851110001cf6248584d5528ebb1452ca4390f3e0f849215&start=${start[0]},${start[1]}&end=${shopDirection.longitude},${shopDirection.latitude}`, { method: "GET" });
         const json = await query.json();
     
-        const data = json.routes[0];
-        const route = data.geometry.coordinates;
+        const route = json.features[0].geometry.coordinates;
         const geojson = {
             type: "Feature",
             properties: {},
@@ -46,8 +59,9 @@ export function useDirections(map, shopDirection, startCoordinate, setStartCoord
         // add turn instructions here at the end
     }
     useEffect(() =>{
+        profileRef.current = profile;
         if (startCoordinate) {
-            getRoute(startCoordinate, profile)
+            getRoute(startCoordinate, profileRef.current)
         }
     }, [profile])
 
@@ -101,7 +115,7 @@ export function useDirections(map, shopDirection, startCoordinate, setStartCoord
                 });
             }
 
-            getRoute(coords, profile);
+            getRoute(coords, profileRef.current);
         };
 
         if (!shopDirection) {

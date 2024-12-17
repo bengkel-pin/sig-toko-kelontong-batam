@@ -19,7 +19,7 @@ export default function Map({ shops, clickedShop, onClickedShop, shopDirection, 
     const [isDirectionEnabled, setIsDirectionEnabled] = useState(false);
     const [startCoordinate, setStartCoordinate] = useState("");
 
-    const [profile, setProfile] = useState("traffic")
+    const [profile, setProfile] = useState("driving");
 
     useMarkers(map, shops, setMarkerClicked, isDirectionEnabled, setIsDirectionEnabled); // Add marker to the map based on the shop data
 
